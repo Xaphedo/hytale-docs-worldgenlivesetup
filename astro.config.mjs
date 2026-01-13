@@ -56,6 +56,14 @@ export default defineConfig({
 								{ label: 'Entity Stats', slug: 'modding/ecs/entity-stats' },
 								{ label: 'Physics', slug: 'modding/ecs/physics' },
 								{ label: 'Player Persistence', slug: 'modding/ecs/player-persistence' },
+								{
+									label: 'Core Systems',
+									items: [
+										{ label: 'Damage System', slug: 'modding/ecs/systems/damage' },
+										{ label: 'Movement & Locomotion', slug: 'modding/ecs/systems/movement' },
+										{ label: 'Mounts System', slug: 'modding/ecs/systems/mounts' },
+									],
+								},
 							],
 						},
 						{
