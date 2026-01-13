@@ -1,0 +1,7 @@
+# Cloudflare Pages ignore file
+
+# Decompiled source files
+decompiled/
+
+# Node modules (handled automatically but explicit)
+node_modules/

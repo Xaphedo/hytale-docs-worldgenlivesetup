@@ -1,0 +1,90 @@
+---
+title: Hytale Server Documentation
+description: Unofficial community documentation for running and configuring Hytale dedicated servers.
+template: splash
+hero:
+  tagline: Unofficial community guides for setting up and modding Hytale dedicated servers.
+  actions:
+    - text: Get Started
+      link: /getting-started/introduction/
+      icon: right-arrow
+    - text: Installation Guide
+      link: /getting-started/installation/
+      icon: seti:config
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Quick Start
+
+<CardGrid>
+	<Card title="Getting Started" icon="open-book">
+		Learn what you need to run a Hytale server and understand the basics.
+		[Read more](/getting-started/introduction/)
+	</Card>
+	<Card title="Installation" icon="laptop">
+		Install Java 25 and set up your server files step by step.
+		[Get started](/getting-started/installation/)
+	</Card>
+	<Card title="Server Configuration" icon="setting">
+		Configure server settings, worlds, and performance options.
+		[Configure](/getting-started/project-setup/)
+	</Card>
+	<Card title="System Requirements" icon="document">
+		4GB RAM minimum, Java 25, UDP port 5520 access.
+	</Card>
+</CardGrid>
+
+## Modding
+
+<CardGrid>
+	<Card title="Modding Overview" icon="open-book">
+		Start here to understand the Hytale server modding architecture and concepts.
+		[Read overview](/modding/overview/)
+	</Card>
+	<Card title="Plugin System" icon="puzzle">
+		Create powerful plugins with the JavaPlugin framework and lifecycle management.
+		[Learn more](/modding/plugin-system/)
+	</Card>
+	<Card title="Event System" icon="rocket">
+		Subscribe to game events with priority ordering and async support.
+		[Explore events](/modding/events/)
+	</Card>
+	<Card title="ECS Components" icon="seti:db">
+		Use the Entity-Component-System architecture for game objects.
+		[View components](/modding/components/)
+	</Card>
+	<Card title="Commands" icon="seti:shell">
+		Register custom commands with argument parsing and permissions.
+		[View commands](/modding/commands/)
+	</Card>
+	<Card title="Examples" icon="seti:json">
+		Complete code examples and common patterns for plugin development.
+		[See examples](/modding/examples/)
+	</Card>
+</CardGrid>
+
+## Key Features
+
+<CardGrid>
+	<Card title="QUIC Protocol" icon="rocket">
+		Hytale uses the modern QUIC protocol over UDP for fast, reliable connections.
+	</Card>
+	<Card title="Server Mesh" icon="puzzle">
+		Built-in support for connecting multiple servers without third-party proxies.
+	</Card>
+	<Card title="Automatic Backups" icon="star">
+		Configure automatic world backups with customizable frequency.
+	</Card>
+	<Card title="Authentication" icon="pencil">
+		OAuth 2.0 based authentication with support for offline mode.
+	</Card>
+</CardGrid>
+
+## Community
+
+Join our community to get help, share your server setups, and connect with other administrators.
+
+- **[Discord](https://discord.gg/jshWA2kRmF)** - Get real-time help from the community
+- **[GitHub](https://github.com/vulpeslab/hytale-docs)** - Report issues and contribute to the documentation

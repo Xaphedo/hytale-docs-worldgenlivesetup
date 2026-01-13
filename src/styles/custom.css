@@ -1,0 +1,89 @@
+/* Custom Hytale theme styles */
+:root {
+	--sl-color-accent-low: #3d2800;
+	--sl-color-accent: #ff9900;
+	--sl-color-accent-high: #ffc966;
+	--sl-color-white: #ffffff;
+	--sl-color-gray-1: #eceef2;
+	--sl-color-gray-2: #c0c2c7;
+	--sl-color-gray-3: #888b96;
+	--sl-color-gray-4: #545861;
+	--sl-color-gray-5: #353841;
+	--sl-color-gray-6: #24272f;
+	--sl-color-black: #17181c;
+}
+
+/* Light mode styling */
+:root[data-theme='light'] {
+	--sl-color-bg: #ffffff;
+	--sl-color-bg-nav: #f5f5f5;
+	--sl-color-bg-sidebar: #fafafa;
+	/* Invert gray scale for light mode */
+	--sl-color-gray-1: #24272f;
+	--sl-color-gray-2: #545861;
+	--sl-color-gray-3: #888b96;
+	--sl-color-gray-4: #c0c2c7;
+	--sl-color-gray-5: #d4d6db;
+	--sl-color-gray-6: #eceef2;
+	--sl-color-white: #17181c;
+	--sl-color-black: #ffffff;
+}
+
+/* Dark mode styling */
+:root[data-theme='dark'] {
+	--sl-color-bg: #0d1117;
+	--sl-color-bg-nav: #161b22;
+	--sl-color-bg-sidebar: #0d1117;
+}
+
+/* Code block styling */
+pre {
+	border: 1px solid var(--sl-color-gray-5);
+	border-radius: 8px;
+}
+
+/* Link hover effects - exclude buttons */
+a:hover:not(.sl-link-button) {
+	color: var(--sl-color-accent-high);
+}
+
+/* Primary button text should stay visible on hover */
+.sl-link-button.primary:hover {
+	color: #17181c;
+}
+
+/* Minimal/secondary button should stay readable on hover */
+:root[data-theme='dark'] .sl-link-button:not(.primary):hover {
+	color: #ffffff;
+}
+
+:root[data-theme='light'] .sl-link-button:not(.primary):hover {
+	color: #17181c;
+}
+
+/* Doc pages only - fix massive whitespace on the left of articles */
+[data-has-sidebar] .content-panel > .sl-container {
+	margin-inline-start: 0;
+	margin-inline-end: auto;
+}
+
+/* Card styling */
+.card {
+	border: 1px solid var(--sl-color-gray-5);
+	transition: border-color 0.2s ease;
+}
+
+.card:hover {
+	border-color: var(--sl-color-accent);
+}
+
+/* Sidebar improvements */
+.sidebar-content {
+	scrollbar-width: thin;
+	scrollbar-color: var(--sl-color-gray-5) transparent;
+}
+
+/* Search box styling */
+site-search button {
+	border-color: var(--sl-color-gray-5);
+}
