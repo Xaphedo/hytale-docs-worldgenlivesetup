@@ -1,8 +1,8 @@
 ---
-title: Component System (ECS)
-description: Learn about Hytale's Entity-Component-System architecture.
+title: Component System
+description: Learn about Hytale's component system and how to create custom components.
 sidebar:
-  order: 4
+  order: 2
 ---
 
 Hytale uses an Entity-Component-System architecture for game objects. This provides efficient data access and flexible composition.
@@ -395,7 +395,7 @@ state.addScore(100);
 
 ## Queries
 
-Filter entities by component composition. The `Query` interface provides static factory methods:
+Filter entities by component composition:
 
 ```java
 import com.hypixel.hytale.component.query.Query;
@@ -416,32 +416,9 @@ Query<EntityStore> alive = Query.and(healthType, Query.not(deadMarkerType));
 Query<EntityStore> all = Query.any();
 ```
 
-Queries are used by systems to determine which entities they should process:
-
-```java
-public class CombatSystem extends EntityTickingSystem<EntityStore> {
-    private final ComponentType<EntityStore, HealthComponent> healthType;
-    private final ComponentType<EntityStore, ArmorComponent> armorType;
-
-    @Override
-    public Query<EntityStore> getQuery() {
-        // Only process entities with both Health and Armor
-        return Query.and(healthType, armorType);
-    }
-
-    @Override
-    public void tick(float dt, int index,
-                     ArchetypeChunk<EntityStore> chunk,
-                     Store<EntityStore> store,
-                     CommandBuffer<EntityStore> commandBuffer) {
-        // Process entity at index
-    }
-}
-```
-
 ## Command Buffer
 
-All entity modifications go through `CommandBuffer` for thread safety. Commands are queued and executed at the end of the tick:
+All entity modifications go through `CommandBuffer` for thread safety:
 
 ```java
 CommandBuffer<EntityStore> buffer = store.getCommandBuffer();
@@ -459,34 +436,6 @@ buffer.run(store -> {
 // Operations execute at end of tick
 ```
 
-:::note
-The `CommandBuffer` also implements `ComponentAccessor`, so you can read components through it:
-```java
-HealthComponent health = buffer.getComponent(entityRef, healthType);
-```
-:::
-
-## Store Types
-
-### EntityStore
-
-For game entities (players, NPCs, items):
-
-```java
-getEntityStoreRegistry().registerComponent(...)
-getEntityStoreRegistry().registerSystem(...)
-getEntityStoreRegistry().registerResource(...)
-```
-
-### ChunkStore
-
-For chunk-level data:
-
-```java
-getChunkStoreRegistry().registerComponent(...)
-getChunkStoreRegistry().registerSystem(...)
-```
-
 ## Built-in Components
 
 Hytale provides many built-in components for common functionality:
@@ -495,7 +444,6 @@ Hytale provides many built-in components for common functionality:
 |-----------|-------------|
 | `TransformComponent` | Entity position, rotation, scale |
 | `ModelComponent` | Visual model reference |
-| `HealthComponent` (in game modules) | Health and damage |
 | `ItemComponent` | Item data for dropped items |
 | `PlayerSkinComponent` | Player skin data |
 | `DisplayNameComponent` | Entity display name |

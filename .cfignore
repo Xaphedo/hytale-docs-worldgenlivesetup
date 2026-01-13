@@ -1,5 +1,8 @@
 # Cloudflare Pages ignore file
 
+# Server JAR
+HytaleServer.jar
+
 # Decompiled source files
 decompiled/
 

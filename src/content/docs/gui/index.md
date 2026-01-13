@@ -1,0 +1,151 @@
+---
+title: GUI System
+description: An overview of Hytale's three GUI subsystems - Windows, Pages, and HUD.
+sidebar:
+  order: 1
+---
+
+Hytale's server-side GUI system is composed of three distinct subsystems, each designed for different use cases. All three are managed per-player and accessed through the `Player` component.
+
+## Architecture Overview
+
+```
+Player Component
+├── WindowManager      - Inventory-based UIs (containers, crafting)
+├── PageManager        - Custom dialogs and overlays
+└── HudManager         - Persistent on-screen elements
+
+UI Building Tools
+├── UICommandBuilder   - Build UI commands (set values, append elements)
+├── UIEventBuilder     - Bind UI events to server callbacks
+└── EventData          - Pass parameters with events
+
+UI Assets
+├── .ui files          - Text-based layout definitions
+├── Common.ui          - Global styles and constants
+└── Pages/*.ui         - Page-specific layouts and components
+```
+
+## The Three GUI Systems
+
+<div class="card-grid">
+
+### [Windows System](./windows/)
+Inventory-based UIs for containers, crafting benches, and processing stations. Windows display item grids and handle player-item interactions.
+
+### [Pages System](./pages/)
+Custom dialogs, menus, and full-screen overlays. Build fully interactive UIs with event handling for shops, dialogs, and custom interfaces.
+
+### [HUD System](./hud/)
+Persistent on-screen elements like health bars, hotbar, compass, and custom overlays. Control what information players see during gameplay.
+
+### [UI Building Tools](./builders/)
+UICommandBuilder and UIEventBuilder for creating and updating UI elements dynamically from your plugin code.
+
+</div>
+
+## Accessing GUI Managers
+
+All three managers are accessed through the `Player` component:
+
+```java
+// Get the Player component from an entity reference
+Player playerComponent = store.getComponent(ref, Player.getComponentType());
+
+// Access the managers
+WindowManager windowManager = playerComponent.getWindowManager();
+PageManager pageManager = playerComponent.getPageManager();
+HudManager hudManager = playerComponent.getHudManager();
+```
+
+## When to Use Each System
+
+| System | Use Case | Examples |
+|--------|----------|----------|
+| **Windows** | Item-based interactions | Chests, crafting tables, furnaces |
+| **Pages** | Full-screen UIs | Shops, dialogs, settings menus |
+| **HUD** | Always-visible info | Health bars, compass, quest tracker |
+
+## Quick Start Examples
+
+### Opening a Custom Page
+
+```java
+public class MyCustomPage extends BasicCustomUIPage {
+    public MyCustomPage(PlayerRef playerRef) {
+        super(playerRef, CustomPageLifetime.CanDismiss);
+    }
+
+    @Override
+    public void build(UICommandBuilder commands) {
+        commands.append("Pages/MyPage.ui");
+        commands.set("#title", "Welcome!");
+    }
+}
+
+// Open the page
+pageManager.openCustomPage(ref, store, new MyCustomPage(playerRef));
+```
+
+### Showing a Custom HUD
+
+```java
+public class BossHealthHud extends CustomUIHud {
+    public BossHealthHud(PlayerRef playerRef) {
+        super(playerRef);
+    }
+
+    @Override
+    protected void build(UICommandBuilder builder) {
+        builder.append("#hud-root", "ui/boss_health.ui");
+        builder.set("#boss-name", "Dragon");
+        builder.set("#health-bar", 1.0f);
+    }
+}
+
+// Show the HUD
+hudManager.setCustomHud(playerRef, new BossHealthHud(playerRef));
+```
+
+### Modifying HUD Components
+
+```java
+// Show only essential components
+hudManager.setVisibleHudComponents(playerRef,
+    HudComponent.Hotbar,
+    HudComponent.Health,
+    HudComponent.Reticle
+);
+
+// Hide specific components
+hudManager.hideHudComponents(playerRef,
+    HudComponent.Compass,
+    HudComponent.ObjectivePanel
+);
+```
+
+## UI File System
+
+Hytale uses `.ui` files as the client-side layout format. These text-based assets define UI structure, styles, and components:
+
+```
+UI Assets
+├── Common.ui                   # Global styles
+├── Common/
+│   └── TextButton.ui          # Reusable components
+└── Pages/
+    ├── DialogPage.ui          # NPC dialogs
+    ├── ShopPage.ui            # Shop interfaces
+    └── RespawnPage.ui         # Death/respawn screen
+```
+
+## Package References
+
+| Class | Package |
+|-------|---------|
+| `WindowManager` | `com.hypixel.hytale.server.core.entity.entities.player.windows` |
+| `PageManager` | `com.hypixel.hytale.server.core.entity.entities.player.pages` |
+| `HudManager` | `com.hypixel.hytale.server.core.entity.entities.player.hud` |
+| `UICommandBuilder` | `com.hypixel.hytale.server.core.ui.builder` |
+| `UIEventBuilder` | `com.hypixel.hytale.server.core.ui.builder` |
+| `Player` | `com.hypixel.hytale.server.core.entity.entities` |

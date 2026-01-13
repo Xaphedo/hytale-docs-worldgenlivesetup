@@ -2,7 +2,7 @@
 title: Task Scheduling and Async System
 description: Schedule and manage asynchronous tasks in your Hytale plugins.
 sidebar:
-  order: 14
+  order: 6
 ---
 
 The Hytale server provides several mechanisms for scheduling tasks, handling asynchronous operations, and managing work across different execution contexts.
@@ -138,20 +138,6 @@ CompletableFuture.supplyAsync(() -> {
 }, world);
 ```
 
-### Task Queue Processing
-
-The world processes its task queue twice per tick - once before ticking systems and once after:
-
-```java
-// Simplified tick loop from World class
-protected void tick(float dt) {
-    consumeTaskQueue();         // Process pending tasks
-    entityStore.tick(dt);       // Tick entity systems
-    chunkStore.tick(dt);        // Tick chunk systems
-    consumeTaskQueue();         // Process any new tasks
-}
-```
-
 ### Tick Rate and Timing
 
 Worlds tick at 30 TPS by default. You can adjust this or work with tick-based timing:
@@ -169,14 +155,9 @@ int nanosPerTick = world.getTickStepNanos(); // 33,333,333 ns at 30 TPS
 if (world.isInThread()) {
     // Safe to access world state directly
 }
-
-// Assert we're on the world thread (throws if not)
-world.debugAssertInTickingThread();
 ```
 
 ## CompletableFuture Patterns
-
-The server makes extensive use of `CompletableFuture` for async operations.
 
 ### Utility Methods
 
@@ -194,32 +175,6 @@ if (CompletableFutureUtil.isCanceled(throwable)) {
 
 // Create an already-cancelled future
 CompletableFuture<String> cancelled = CompletableFutureUtil.completionCanceled();
-
-// Chain completion to another future
-CompletableFuture<String> source = fetchDataAsync();
-CompletableFuture<String> target = new CompletableFuture<>();
-CompletableFutureUtil.whenComplete(source, target);
-// target will complete when source completes (with same result or exception)
-```
-
-### Progress Tracking
-
-For operations with multiple futures, track progress:
-
-```java
-import com.hypixel.hytale.common.util.CompletableFutureUtil;
-import java.util.List;
-
-List<CompletableFuture<?>> tasks = createManyTasks();
-
-CompletableFutureUtil.joinWithProgress(
-    tasks,
-    (progress, done, total) -> {
-        getLogger().info("Progress: %.1f%% (%d/%d)", progress * 100, done, total);
-    },
-    100,   // Sleep interval in ms between checks
-    1000   // Progress report interval in ms
-);
 ```
 
 ### Combining Futures
@@ -257,7 +212,6 @@ For commands that perform long-running operations, extend `AbstractAsyncCommand`
 import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncCommand;
 import com.hypixel.hytale.server.core.command.system.CommandContext;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class MyAsyncCommand extends AbstractAsyncCommand {
 
@@ -267,7 +221,6 @@ public class MyAsyncCommand extends AbstractAsyncCommand {
 
     @Override
     protected CompletableFuture<Void> executeAsync(CommandContext context) {
-        // Run on a specific executor
         return runAsync(context, () -> {
             // Long-running operation
             performHeavyComputation();
@@ -277,32 +230,9 @@ public class MyAsyncCommand extends AbstractAsyncCommand {
 }
 ```
 
-For world-specific async commands, use `AbstractAsyncWorldCommand`:
-
-```java
-import com.hypixel.hytale.server.core.command.system.basecommands.AbstractAsyncWorldCommand;
-
-public class MyWorldCommand extends AbstractAsyncWorldCommand {
-
-    public MyWorldCommand() {
-        super("myworldcmd", "Performs async operation in a world");
-    }
-
-    @Override
-    protected CompletableFuture<Void> executeAsync(CommandContext context, World world) {
-        return CompletableFuture.runAsync(() -> {
-            // Runs on ForkJoinPool, then dispatches to world thread
-        }).thenRunAsync(() -> {
-            // This runs on the world thread
-            modifyWorldState(world);
-        }, world);
-    }
-}
-```
-
 ## Common Scheduling Patterns
 
-### Periodic Backups
+### Periodic Tasks
 
 ```java
 @Override
@@ -351,9 +281,7 @@ void onPlayerResponse(PlayerRef player) {
 // Process items in batches across multiple ticks
 public CompletableFuture<Void> processInBatches(World world, List<Item> items, int batchSize) {
     CompletableFuture<Void> result = new CompletableFuture<>();
-
     processNextBatch(world, items, 0, batchSize, result);
-
     return result;
 }
 
@@ -418,16 +346,7 @@ public void cancelTask() {
 
 ### Automatic Cleanup
 
-The `TaskRegistry` automatically cancels all registered tasks when your plugin is disabled:
-
-```java
-// In PluginBase.cleanup():
-void cleanup(boolean shutdown) {
-    // ... other cleanup ...
-    this.taskRegistry.shutdown();  // Cancels all registered tasks
-    // ...
-}
-```
+The `TaskRegistry` automatically cancels all registered tasks when your plugin is disabled.
 
 ## Best Practices
 

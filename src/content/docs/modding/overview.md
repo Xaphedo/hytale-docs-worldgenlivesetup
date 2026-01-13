@@ -9,16 +9,28 @@ sidebar:
 
 This documentation provides a comprehensive guide to creating mods and plugins for the Hytale dedicated server.
 
-## Overview
+## Documentation Sections
 
-The Hytale server uses a sophisticated plugin architecture that allows developers to:
-
-- Create custom game mechanics
-- Add new entities, blocks, and items
-- Implement custom commands
-- Handle network packets
-- Register custom assets and content
-- Subscribe to game events
+<div class="not-content">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+<a href="/docs/modding/plugins" style="display: block; padding: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; text-decoration: none;">
+<strong style="color: var(--sl-color-white);">🔌 Plugin Development</strong>
+<p style="margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--sl-color-gray-2);">Plugin system, events, commands, permissions, and task scheduling.</p>
+</a>
+<a href="/docs/modding/ecs" style="display: block; padding: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; text-decoration: none;">
+<strong style="color: var(--sl-color-white);">🎯 Entity System (ECS)</strong>
+<p style="margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--sl-color-gray-2);">Components, entity stats, physics simulation, and player persistence.</p>
+</a>
+<a href="/docs/modding/content" style="display: block; padding: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; text-decoration: none;">
+<strong style="color: var(--sl-color-white);">📦 Content & World</strong>
+<p style="margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--sl-color-gray-2);">Assets, inventory, prefabs, and world generation.</p>
+</a>
+<a href="/docs/modding/networking" style="display: block; padding: 1.25rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.5rem; text-decoration: none;">
+<strong style="color: var(--sl-color-white);">🌐 Networking</strong>
+<p style="margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--sl-color-gray-2);">Protocol handling, packet interception, and network utilities.</p>
+</a>
+</div>
+</div>
 
 ## Server Architecture
 
@@ -44,16 +56,16 @@ Plugins are loaded from multiple locations in this order:
 ## Key Concepts
 
 ### Plugins
-Plugins are Java JAR files placed in the `mods/` directory. Each plugin has a `manifest.json` that defines metadata, dependencies, and the main class.
+Plugins are Java JAR files placed in the `mods/` directory. Each plugin has a `manifest.json` that defines metadata, dependencies, and the main class. See [Plugin Development](/docs/modding/plugins) for details.
 
 ### Components (ECS)
-Hytale uses an Entity-Component-System architecture. Entities are lightweight references, components store data, and systems process logic.
+Hytale uses an Entity-Component-System architecture. Entities are lightweight references, components store data, and systems process logic. See [Entity System](/docs/modding/ecs) for details.
 
 ### Events
-The event system allows plugins to react to game occurrences. Events can be synchronous or asynchronous, and support priority ordering.
+The event system allows plugins to react to game occurrences. Events can be synchronous or asynchronous, and support priority ordering. See [Events](/docs/modding/plugins/events) for details.
 
 ### Registries
-Custom content (components, commands, assets) is registered through type-safe registries that handle lifecycle management.
+Custom content (components, commands, assets) is registered through type-safe registries that handle lifecycle management. See [Assets & Registry](/docs/modding/content/assets) for details.
 
 ## Requirements
 
@@ -67,6 +79,8 @@ Custom content (components, commands, assets) is registered through type-safe re
 3. Create your plugin class extending `JavaPlugin`
 4. Create a `manifest.json` file
 5. Build your JAR and place it in the `mods/` directory
+
+See [Plugin System](/docs/modding/plugins/plugin-system) for a complete guide.
 
 ## Default Server Port
 

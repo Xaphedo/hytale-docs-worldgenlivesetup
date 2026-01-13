@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # decompiled source files
 decompiled/
+
+# Server JAR
+HytaleServer.jar
