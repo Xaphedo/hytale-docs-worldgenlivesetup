@@ -94,7 +94,7 @@ Custom content (components, commands, assets) is registered through type-safe re
 4. Create a `manifest.json` file
 5. Build your JAR and place it in the `mods/` directory
 
-See [Plugin System](/docs/modding/plugins/plugin-system) for a complete guide.
+See [Plugin System](/modding/plugins/plugin-system) for a complete guide.
 
 ## Default Server Port
 
