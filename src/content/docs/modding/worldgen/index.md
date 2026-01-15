@@ -7,7 +7,7 @@ sidebar:
 
 This section covers Hytale's procedural world generation systems that create diverse, engaging environments through zones, biomes, and cave networks.
 
-Go to [Setting Up Live Worldgen](./live) if you want to get your hands dirty right away, editing biome files and playing around with the existing parameters. You'll be able to see the edits you make appear in game, live.
+Go to [Setting Up Live Worldgen Editing](./live) if you want to get your hands dirty right away, editing biome files and playing around with the existing parameters. You'll be able to see the edits you make appear in game, live.
 
 ## Overview
 
